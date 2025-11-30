@@ -48,7 +48,8 @@
                 
                 <div class="contact-form scroll-animate-right">
                     <h2>Send Us a Message</h2>
-                    <form id="contactForm">
+                    <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+                        <input type="hidden" name="access_key" value="ed7b0e27-c5f3-45f8-8a74-e7016224c289">
                         <div class="form-group">
                             <label for="name">Name *</label>
                             <input type="text" id="name" name="name" required>
