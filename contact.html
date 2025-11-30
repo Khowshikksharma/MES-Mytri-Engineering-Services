@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Mytri Engineering Services</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <div data-include="components/header.html"></div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="scroll-animate">Contact Us</h1>
+            <p class="scroll-animate">Get in touch for all your facility management and engineering needs</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact">
+        <div class="container">
+            <div class="contact-content scroll-animate">
+                <div class="contact-info">
+                    <h2 class="scroll-animate-left">Get In Touch</h2>
+                    <div class="contact-item scroll-animate-left">
+                        <h3>Address</h3>
+                        <p>Dr. No. 21-139/1, Venkatadri Nagar,<br>Prahaladhapuram, Visakhapatnam - 530027</p>
+                    </div>
+                    <div class="contact-item scroll-animate-left">
+                        <h3>Phone</h3>
+                        <p>0891-2715272<br>9884876028, 9968408293, 9885916161</p>
+                    </div>
+                    <div class="contact-item scroll-animate-left">
+                        <h3>Email</h3>
+                        <p>mytriengineeringservices@gmail.com</p>
+                    </div>
+                    <div class="contact-item scroll-animate-left">
+                        <h3>Service Areas</h3>
+                        <p>Visakhapatnam, Kakinada, Hyderabad</p>
+                    </div>
+                    <div class="contact-item scroll-animate-left">
+                        <h3>Service Hours</h3>
+                        <p>24 Hours Support</p>
+                    </div>
+                </div>
+                
+                <div class="contact-form scroll-animate-right">
+                    <h2>Send Us a Message</h2>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company</label>
+                            <input type="text" id="company" name="company">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone *</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" id="city" name="city">
+                        </div>
+                        <div class="form-group">
+                            <label for="service">Service Required</label>
+                            <select id="service" name="service">
+                                <option value="">Select a service</option>
+                                <option value="facility-management">Facility Management</option>
+                                <option value="hvac-om">HVAC Operation & Maintenance</option>
+                                <option value="boiler-services">Boiler Services</option>
+                                <option value="water-treatment">Water Treatment</option>
+                                <option value="technical-services">Technical Services</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="container">
+            <h2 class="scroll-animate">Our Service Areas</h2>
+            <p class="scroll-animate">We provide services in Visakhapatnam, Kakinada, and Hyderabad regions</p>
+            <div class="map-placeholder scroll-animate">
+                <!-- In a real implementation, you would embed a Google Map here -->
+                <p>Map would be embedded here showing service areas: Visakhapatnam, Kakinada, Hyderabad</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div data-include="components/footer.html"></div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
