@@ -1,6 +1,9 @@
 // Enhanced JavaScript with advanced animations and interactions
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Include header/footer HTML
+    includeHTML();
+
     // Initialize all animations and functionality
     initScrollAnimations();
     initHeaderEffects();
@@ -14,7 +17,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Scroll Animations
 function initScrollAnimations() {
-    const animatedElements = document.querySelectorAll('.scroll-animate, .scroll-animate-left, .scroll-animate-right, .scroll-animate-scale, .scroll-animate-rotate');
+    const animatedElements = document.querySelectorAll(
+        '.scroll-animate, .scroll-animate-left, .scroll-animate-right, .scroll-animate-scale, .scroll-animate-rotate'
+    );
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -22,13 +27,15 @@ function initScrollAnimations() {
                 entry.target.classList.add('animate');
                 
                 // Staggered animation for child elements
-                if (entry.target.classList.contains('highlight-grid') || 
+                if (
+                    entry.target.classList.contains('highlight-grid') || 
                     entry.target.classList.contains('strengths-grid') ||
                     entry.target.classList.contains('services-grid') ||
                     entry.target.classList.contains('industries-grid') ||
                     entry.target.classList.contains('projects-grid') ||
                     entry.target.classList.contains('expertise-grid') ||
-                    entry.target.classList.contains('equipment-grid')) {
+                    entry.target.classList.contains('equipment-grid')
+                ) {
                     const children = entry.target.children;
                     Array.from(children).forEach((child, index) => {
                         child.style.transitionDelay = `${index * 0.1}s`;
@@ -49,6 +56,8 @@ function initScrollAnimations() {
 // Header Effects
 function initHeaderEffects() {
     const header = document.querySelector('header');
+    if (!header) return;
+
     let lastScrollY = window.scrollY;
 
     window.addEventListener('scroll', () => {
@@ -73,21 +82,22 @@ function initHeaderEffects() {
 function initSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            
             const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            
+            if (!targetId || targetId === '#') return;
+
             const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                const headerHeight = document.querySelector('header').offsetHeight;
-                const targetPosition = targetElement.offsetTop - headerHeight - 20;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-            }
+            if (!targetElement) return;
+
+            e.preventDefault();
+
+            const header = document.querySelector('header');
+            const headerHeight = header ? header.offsetHeight : 0;
+            const targetPosition = targetElement.offsetTop - headerHeight - 20;
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
         });
     });
 }
@@ -107,6 +117,7 @@ function initParallaxEffects() {
 // Counter Animations
 function initCounterAnimations() {
     const counters = document.querySelectorAll('.counter');
+    if (!counters.length) return;
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -190,46 +201,58 @@ function initServiceHoverEffects() {
 // Enhanced Contact Form
 function initContactForm() {
     const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // Form validation
-            if (!validateForm()) {
-                return;
-            }
-            
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            
-            // Show loading state
-            submitBtn.innerHTML = '<span class="loading"></span> Sending...';
-            submitBtn.disabled = true;
-            
-            try {
-                // Simulate API call
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                
-                // Show success message
-                showNotification('Message sent successfully! We will get back to you soon.', 'success');
-                contactForm.reset();
-                
-            } catch (error) {
-                showNotification('Error sending message. Please try again.', 'error');
-            } finally {
-                // Reset button
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }
-        });
+    if (!contactForm) return;
 
-        // Real-time validation
-        const inputs = contactForm.querySelectorAll('input, textarea, select');
-        inputs.forEach(input => {
-            input.addEventListener('blur', validateField);
-            input.addEventListener('input', clearFieldError);
-        });
-    }
+    contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Form validation
+        if (!validateForm()) {
+            return;
+        }
+        
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        
+        // Show loading state
+        submitBtn.innerHTML = '<span class="loading"></span> Sending...';
+        submitBtn.disabled = true;
+        
+        try {
+            const formData = {
+                name: contactForm.name.value,
+                company: contactForm.company.value,
+                phone: contactForm.phone.value,
+                email: contactForm.email.value,
+                city: contactForm.city.value,
+                service: contactForm.service.value || "Not specified",
+                message: contactForm.message.value
+            };
+
+            // Your EmailJS IDs
+            const SERVICE_ID = "service_bxjx5h9";
+            const TEMPLATE_ID = "template_h4mtvc8";
+
+            await emailjs.send(SERVICE_ID, TEMPLATE_ID, formData);
+
+            showNotification('Message sent successfully! We will get back to you soon.', 'success');
+            contactForm.reset();
+        } catch (error) {
+            console.error("EmailJS error:", error);
+            showNotification('Error sending message. Please try again.', 'error');
+        } finally {
+            // Reset button
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+
+    // Real-time validation
+    const inputs = contactForm.querySelectorAll('input, textarea, select');
+    inputs.forEach(input => {
+        input.addEventListener('blur', validateField);
+        input.addEventListener('input', clearFieldError);
+    });
 }
 
 function validateForm() {
@@ -341,6 +364,66 @@ function showNotification(message, type) {
     }, 5000);
 }
 
+// Google Map - Service Areas
+function initServiceMap() {
+    const mapElement = document.getElementById("service-map");
+    if (!mapElement) return;
+
+    if (typeof google === "undefined" || !google.maps) {
+        console.warn("Google Maps JS API not loaded.");
+        return;
+    }
+
+    const locations = [
+        {
+            name: "Visakhapatnam",
+            position: { lat: 17.6868, lng: 83.2185 },
+        },
+        {
+            name: "Kakinada",
+            position: { lat: 16.9891, lng: 82.2475 },
+        },
+        {
+            name: "Hyderabad",
+            position: { lat: 17.3850, lng: 78.4867 },
+        },
+    ];
+
+    const map = new google.maps.Map(mapElement, {
+        center: { lat: 17.3, lng: 81.3 },
+        zoom: 6,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: true,
+    });
+
+    const bounds = new google.maps.LatLngBounds();
+
+    locations.forEach(loc => {
+        const marker = new google.maps.Marker({
+            position: loc.position,
+            map,
+            title: loc.name,
+        });
+
+        const infoWindow = new google.maps.InfoWindow({
+            content: `<div style="font-size:14px;"><strong>${loc.name}</strong></div>`,
+        });
+
+        marker.addListener("click", () => {
+            infoWindow.open({
+                anchor: marker,
+                map,
+                shouldFocus: false,
+            });
+        });
+
+        bounds.extend(loc.position);
+    });
+
+    map.fitBounds(bounds);
+}
+
 // Include HTML components
 function includeHTML() {
     const elements = document.querySelectorAll('[data-include]');
@@ -359,11 +442,6 @@ function includeHTML() {
                 .then(data => {
                     element.innerHTML = data;
                     element.removeAttribute('data-include');
-                    includeHTML(); // Process nested includes
-                    
-                    // Re-initialize scripts for included content
-                    initScrollAnimations();
-                    initHeaderEffects();
                 })
                 .catch(error => {
                     console.error('Error including HTML:', error);
@@ -372,11 +450,6 @@ function includeHTML() {
         }
     });
 }
-
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-    includeHTML();
-});
 
 // Add CSS for error states
 const style = document.createElement('style');

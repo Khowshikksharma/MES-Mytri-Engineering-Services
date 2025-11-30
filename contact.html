@@ -74,7 +74,7 @@
                             <select id="service" name="service">
                                 <option value="">Select a service</option>
                                 <option value="facility-management">Facility Management</option>
-                                <option value="hvac-om">HVAC Operation & Maintenance</option>
+                                <option value="hvac-om">HVAC Operation &amp; Maintenance</option>
                                 <option value="boiler-services">Boiler Services</option>
                                 <option value="water-treatment">Water Treatment</option>
                                 <option value="technical-services">Technical Services</option>
@@ -97,9 +97,8 @@
         <div class="container">
             <h2 class="scroll-animate">Our Service Areas</h2>
             <p class="scroll-animate">We provide services in Visakhapatnam, Kakinada, and Hyderabad regions</p>
-            <div class="map-placeholder scroll-animate">
-                <!-- In a real implementation, you would embed a Google Map here -->
-                <p>Map would be embedded here showing service areas: Visakhapatnam, Kakinada, Hyderabad</p>
+            <div class="map-wrapper scroll-animate">
+                <div id="service-map"></div>
             </div>
         </div>
     </section>
@@ -107,6 +106,28 @@
     <!-- Footer -->
     <div data-include="components/footer.html"></div>
 
+    <!-- EmailJS SDK (v4 browser script) -->
+    <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+    <script type="text/javascript">
+        (function() {
+            // 🚨 REPLACE THIS with your real EmailJS Public Key
+            // Example: publicKey: "YH3bLxAbCw9xxxxxxxx"
+            emailjs.init({
+                publicKey: "YOUR_PUBLIC_KEY",
+            });
+        })();
+    </script>
+
+    <!-- Main JS (uses emailjs.send) -->
     <script src="js/script.js"></script>
+
+    <!-- Google Maps JS API (🚨 replace YOUR_GOOGLE_MAPS_API_KEY) -->
+    <script
+        async
+        defer
+        src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initServiceMap">
+    </script>
 </body>
 </html>
